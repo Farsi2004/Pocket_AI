@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pocket Signals</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0b1120;
+      color: #e5e7eb;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      padding: 20px 16px;
+      background: #111a2e;
+      border-bottom: 1px solid #253149;
+    }
+    header h1 { margin: 0 0 8px; font-size: 23px; }
+    header p { margin: 0; color: #9ca3af; font-size: 13px; }
+    main { max-width: 850px; margin: auto; padding: 16px; }
+    .panel {
+      background: #111a2e;
+      border: 1px solid #26344d;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 15px;
+    }
+    .status { color: #fbbf24; font-size: 14px; }
+    .muted { color: #9ca3af; font-size: 13px; line-height: 1.8; }
+    h2 { font-size: 17px; margin-top: 0; }
+    select, button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 9px;
+      font-size: 15px;
+    }
+    select {
+      color: white;
+      background: #0b1120;
+      border: 1px solid #34445f;
+      margin: 8px 0 12px;
+    }
+    button {
+      background: #2563eb;
+      border: 0;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .pairs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .pair {
+      background: #0b1120;
+      border: 1px solid #26344d;
+      border-radius: 10px;
+      padding: 13px;
+    }
+    .pair strong { display: block; margin-bottom: 9px; }
+    .price { color: #9ca3af; font-size: 13px; }
+    .signal {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #0b1120;
+      border: 1px solid #26344d;
+      line-height: 1.9;
+      overflow-wrap: anywhere;
+    }
+    footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      padding: 20px;
+    }
+    @media (max-width: 360px) {
+      .pairs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📊 Pocket Signals</h1>
+    <p>لوحة متابعة وتحليل أزواج العملات</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>حالة النظام</h2>
+      <p class="status" id="connection">
+        ● لم يتم ربط مصدر الأسعار بعد
+      </p>
+      <p class="muted">
+        هذه نسخة أولية. لن نعرض أسعاراً أو إشارات وهمية
+        على أنها بيانات مباشرة.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>أزواج العملات</h2>
+      <div class="pairs" id="pairs"></div>
+    </section>
+
+    <section class="panel">
+      <h2>إعداد التحليل</h2>
+      <label for="pair">اختر زوج العملات</label>
+      <select id="pair">
+        <option>EUR/USD</option>
+        <option>GBP/USD</option>
+        <option>USD/JPY</option>
+        <option>AUD/USD</option>
+        <option>USD/CAD</option>
+        <option>EUR/JPY</option>
+      </select>
+
+      <label for="timeframe">الإطار الزمني للشموع</label>
+      <select id="timeframe">
+        <option value="1">دقيقة واحدة</option>
+        <option value="5">5 دقائق</option>
+        <option value="15">15 دقيقة</option>
+      </select>
+
+      <button id="analyze" disabled>
+        التحليل متوقف حتى ربط بيانات الأسعار
+      </button>
+
+      <div class="signal" id="result" aria-live="polite">
+        <strong>لا توجد إشارة حالياً</strong>
+        <div class="muted">
+          سنفعّل التحليل بعد ربط مصدر الأسعار والتحقق من
+          بيانات الشموع وبناء استراتيجية قابلة للاختبار.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Pocket Signals · نسخة تجريبية · ليست توصية مالية
+    </footer>
+  </main>
+
+  <script>
+    const pairs = [
+      "EUR/USD", "GBP/USD", "USD/JPY",
+      "AUD/USD", "USD/CAD", "EUR/JPY"
+    ];
+
+    const container = document.getElementById("pairs");
+
+    pairs.forEach(name => {
+      const card = document.createElement("div");
+      card.className = "pair";
+
+      const title = document.createElement("strong");
+      title.textContent = name;
+
+      const price = document.createElement("div");
+      price.className = "price";
+      price.textContent = "بانتظار بيانات الأسعار";
+
+      card.append(title, price);
+      container.appendChild(card);
+    });
+  </script>
+</body>
+  </html>
+  
